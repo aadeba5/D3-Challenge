@@ -1,4 +1,7 @@
 // @TODO: YOUR CODE HERE!
+
+
+
 var svgWidth = 960;
 var svgHeight = 500;
 
@@ -14,6 +17,13 @@ var height = svgHeight - margin.top - margin.bottom;
 
 // Create an SVG wrapper, append an SVG group that will hold our chart,
 // and shift the latter by left and top margins.
+// import d3 from 'd3'; 
+// import d3Tip from "d3-tip";
+
+var tip = d3tip().attr('class', 'd3-tip').offset([-12,0])
+.html(function(d) {
+  /*  your code goes here */
+
 var svg = d3
   .select("#scatter")
   .append("svg")
@@ -23,6 +33,7 @@ var svg = d3
 // Append an SVG group
 var chartGroup = svg.append("g")
   .attr("transform", `translate(${margin.left}, ${margin.top})`);
+});
 
   // Initial Params
 var chosenXAxis = "poverty";
@@ -167,10 +178,10 @@ function updateToolTip(chosenXAxis, chosenYAxis, circlesGroup) {
 
 // D3_data_journalism/assets/data/data.csv
 // Retrieve data from the CSV file and execute everything below
-d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data, err) {
+d3.csv("assets/data/data.csv").then(function(data, err) {
     // console.log(data)
   // Import Data
-//   const data = await d3.csv("../data.csv");
+  // const data = await d3.csv("assets/data/data.csv");
     // parsing data
     data.forEach(function(data) {
       data.poverty = +data.poverty;
@@ -282,7 +293,7 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data, err) {
       .text("Lacks Healthcare (%)");
 
     // updateToolTip function above csv import
-    circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+    circle_Group = updatetoolTip(chosenXAxis, chosenYAxis, circlesGroup);
   
     // x axis labels event listener
     xlabelsGroup.selectAll("text")
@@ -294,7 +305,7 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data, err) {
           // replaces chosenXAxis with value
           chosenXAxis = value;
   
-          // console.log(chosenXAxis)
+          console.log(chosenXAxis)
   
           // functions here found above csv import
           // updates x scale for new data
@@ -310,7 +321,7 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data, err) {
           circlesText = renderXText(circlesText, xLinearScale, chosenXAxis)  
   
           // updates tooltips with new info
-          circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+          circlesGroup = updatetoolTip(chosenXAxis, chosenYAxis, circlesGroup);
   
           // changes classes to change bold text
           if (chosenXAxis === "age") {
@@ -359,7 +370,7 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data, err) {
         // replaces chosenYAxis with value
         chosenYAxis = value;
 
-        // console.log(chosenYAxis)
+        console.log(chosenYAxis)
 
         // functions here found above csv import
         // updates y scale for new data
@@ -375,7 +386,7 @@ d3.csv("../D3_data_journalism/assets/data/data.csv").then(function(data, err) {
         circlesText = renderYText(circlesText, yLinearScale, chosenYAxis) 
 
         // updates tooltips with new info
-        circlesGroup = updateToolTip(chosenXAxis, chosenYAxis, circlesGroup);
+        circlesGroup = updatetoolTip(chosenXAxis, chosenYAxis, circlesGroup);
 
         // changes classes to change bold text
         if (chosenYAxis === "obesity") {
