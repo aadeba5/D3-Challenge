@@ -1,9 +1,9 @@
 // // function used for updating x-scale const upon click on axis label
-function xScale(csvData, chosenXAxis) {
+function xScale(data, chosenXAxis) {
   // create scales
   let xLinearScale = d3.scaleLinear()
-    .domain([d3.min(csvData, d => d[chosenXAxis]) * 0.9,
-      d3.max(csvData, d => d[chosenXAxis]) * 1.1
+    .domain([d3.min(data, d => d[chosenXAxis]) * 0.9,
+      d3.max(data, d => d[chosenXAxis]) * 1.1
     ])
     .range([0, width]);
 
@@ -11,11 +11,11 @@ function xScale(csvData, chosenXAxis) {
 }
 
 // function used for updating y-scale const upon click on axis label
-function yScale(csvData, chosenYAxis) {
+function yScale(data, chosenYAxis) {
   // create scales
   let yLinearScale = d3.scaleLinear()
-    .domain([d3.min(csvData, d => d[chosenYAxis]) - 1,
-      d3.max(csvData, d => d[chosenYAxis]) + 1
+    .domain([d3.min(data, d => d[chosenYAxis]) - 1,
+      d3.max(data, d => d[chosenYAxis]) + 1
     ])
     .range([height, 0]);
 
@@ -46,42 +46,42 @@ function renderYAxes(newYScale, yAxis) {
 
 // functions used for updating circles group with a transition to
 // new circles for both X and Y coordinates
-function renderXCircles(circlesGroup, newXScale, chosenXaxis) {
+function renderXCircles(chartGroup, newXScale, chosenXaxis) {
 
-  circlesGroup.transition()
+  chartGroup.transition()
     .duration(1000)
     .attr("cx", d => newXScale(d[chosenXAxis]));
 
-  return circlesGroup;
+  return chartGroup;
 }
 
-function renderYCircles(circlesGroup, newYScale, chosenYaxis) {
+function renderYCircles(chartGroup, newYScale, chosenYaxis) {
 
-  circlesGroup.transition()
+  chartGroup.transition()
     .duration(1000)
     .attr("cy", d => newYScale(d[chosenYAxis]));
 
-  return circlesGroup;
+  return chartGroup;
 }
 
 // functions used for updating circles text with a transition on
 // new circles for both X and Y coordinates
-function renderXText(circlesGroup, newXScale, chosenXaxis) {
+function renderXText(chartGroup, newXScale, chosenXaxis) {
 
-  circlesGroup.transition()
+  chartGroup.transition()
     .duration(1000)
     .attr("dx", d => newXScale(d[chosenXAxis]));
 
-  return circlesGroup;
+  return chartGroup;
 }
 
-function renderYText(circlesGroup, newYScale, chosenYaxis) {
+function renderYText(chartGroup, newYScale, chosenYaxis) {
 
-  circlesGroup.transition()
+  chartGroup.transition()
     .duration(1000)
     .attr("dy", d => newYScale(d[chosenYAxis])+5);
 
-  return circlesGroup;
+  return chartGroup;
 }
 
 // format number to USD currency
@@ -91,7 +91,7 @@ let formatter = new Intl.NumberFormat('en-US', {
 });
 
 // function used for updating circles group with new tooltip
-function updatetoolTip(circlesGroup, chosenXAxis, chosenYAxis) {
+function updatetoolTip(chartGroup, chosenXAxis, chosenYAxis) {
 
   let xpercentsign = "";
   let xlabel = "";
@@ -130,13 +130,13 @@ function updatetoolTip(circlesGroup, chosenXAxis, chosenYAxis) {
       };
     });
 
-  circlesGroup.call(toolTip);
+  chartGroup.call(toolTip);
 
   // mouseover event
-  circlesGroup.on("mouseover", function(data) {
+  chartGroup.on("mouseover", function(data) {
       toolTip.show(data, this);
       // trying to highlight chosen circle
-      circlesGroup.append("circle")
+      chartGroup.append("circle")
         .attr("cx", d3.event.pageX)
         .attr("cy", d3.event.pageY)
         .attr("r", 15)
@@ -148,5 +148,5 @@ function updatetoolTip(circlesGroup, chosenXAxis, chosenYAxis) {
         toolTip.hide(data, this);
     });
 
-return circlesGroup;
+return chartGroup;
 }
